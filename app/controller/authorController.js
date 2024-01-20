@@ -18,13 +18,19 @@ const getAuthorById = (req, res) => {
     });
 };
 
-const createAuthor = (req, res) => {
-    const { newAuthor } = req.body;
-    console.log("data >>>", newAuthor);
-    res.status(200).json({
-        success: true,
-        message: `${req.method} - request to Author endpoint`,
-    });
+const createAuthor = async (req, res) => {
+    const { author } = req.body;
+    try {
+        const newAuthor = await Authors.create(author);
+        console.log("data >>>", newAuthor);
+        res.status(200).json({
+            data: newAuthor,
+            success: true,
+            message: `${req.method} - request to Author endpoint`,
+        });
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const updateAuthor = async (req, res) => {
